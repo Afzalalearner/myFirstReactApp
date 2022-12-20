@@ -1,25 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+// import Counter from "./Counter";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+import ProductList from "./products/ProductList";
+
+// import Name from "./Name";
+const App=()=>{
+    return <div>
+    {/* <h1>Welcome to React App</h1>
+    <Name fName='Afzal'/>
+    <Name fName='AbuBakr'/>
+    <Name fName='Musfirah'/>
+    <Counter count={10}/> */}
+    <ProductList/>
     </div>
-  );
 }
 
 export default App;
