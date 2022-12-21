@@ -2,6 +2,7 @@
 import React from "react";
 import Product from "./Product";
 
+
 const ProductList=()=>{
 const data=[
     {id:1,brand:'Apple',model:'Iphone 12',price:1500,discount:0,inStock:true,
@@ -12,6 +13,9 @@ image:'https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSAbXiF4tpQKpkYk0M
     image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_5tgKmv8sKFhSixgzDWg7tTi8LMtSMjbq6IaMjnamfxZAEWajpQXKCZeALwKEj7VIrYE&usqp=CAU'},
 
 ]
+
+
+
 
     return <div>
     <h1 style={{textAlign:'center'}}>Products</h1>

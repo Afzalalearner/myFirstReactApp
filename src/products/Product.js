@@ -21,7 +21,8 @@ const Product=({product})=>{
     <div className="card-footer">
       <button style={{color:'white'}}
       className="btn btn-primary btn-sm" disabled={!product.inStock}>Add to Cart
-      <i className="p-1 fa-sharp fa-solid fa-cart-plus"></i>
+      <i className="p-3 fa-sharp fa-solid fa-cart-plus"></i>
+
       </button>
     </div>
     </div>

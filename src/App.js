@@ -1,6 +1,7 @@
 // import Counter from "./Counter";
 
-import ProductList from "./products/ProductList";
+//  import ProductList from "./products/ProductList";
+import Users from "./users/Users";
 
 // import Name from "./Name";
 const App=()=>{
@@ -10,7 +11,8 @@ const App=()=>{
     <Name fName='AbuBakr'/>
     <Name fName='Musfirah'/>
     <Counter count={10}/> */}
-    <ProductList/>
+    {/* <ProductList/> */}
+    <Users/>
     </div>
 }
 
