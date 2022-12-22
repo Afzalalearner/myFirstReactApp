@@ -1,29 +1,41 @@
 import React from "react";
 import axios from 'axios';
 import UserItem from "./UserItem";
+import Loader from "../utils/Loader";
+import Error from "../utils/Error";
+class Users extends React.Component {
 
-class Users extends React.Component{
-    
-    state={
-        users:[]
+    state = {
+        users:[],
+        hasError: false,
+        loading:true
     }
-    constructor(){
+    constructor() {
         super()
 
-        
 
-        axios.get('https://api.github.com/users')
-        .then(res=>this.setState({users:res.data}))
-        .catch(err=>console.log(err))
-    }
+setTimeout(()=>{
 
-    render(){
+    axios.get('https://api.github.com/users')
+    .then(res => this.setState({ users: res.data,loading:false }))
+    .catch(err =>this.setState({ hasError: true,loading:false }))
+    // .finally(()=>this.setState({loading:false}))
+},2000)
+}
+
+    render() {
         return <div className="container">
-                        <h1>Users</h1>
-            <hr/>
-            {this.state.users.map(user=><UserItem user={user}/>)}
+            {this.state.hasError?<Error/> :null}
+
+            <h1>Users</h1>
+            <hr />
+            {this.state.Loader?<Loader/>:null }
+            {this.state.users.map(user => <UserItem user={user} />)}
         </div>
+
     }
+
+
 }
 
 export default Users;
