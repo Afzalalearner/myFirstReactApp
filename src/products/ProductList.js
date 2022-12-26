@@ -4,6 +4,7 @@ import ProductItem from './ProductItem';
 import ShouldRender from './../utils/ShouldRender'
 import Error from './../utils/Error'
 import Loader from './../utils/Loader'
+import { Link } from 'react-router-dom';
 class ProductList extends Component{
 
     state={
@@ -27,6 +28,7 @@ class ProductList extends Component{
         return <div className='container-fluid'>
             <h4 style={{textAlign:'center'}} className="m-3">Products</h4>
             <hr/>
+            <Link to="/products/new" className="btn btn-danger btn-sm">Add Product</Link>
            
             <ShouldRender condition={this.state.hasError}>
                 <Error/>

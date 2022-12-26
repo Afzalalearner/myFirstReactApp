@@ -25,7 +25,7 @@ setTimeout(()=>{
 }
 
     render() {
-        return <div className="container">
+        return <div className="container-fluid">
             <ShouldRender condition={this.state.hasError}>
                 <Error/>
             </ShouldRender>
