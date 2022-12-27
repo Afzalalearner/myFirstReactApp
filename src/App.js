@@ -9,6 +9,7 @@ import Users from "./users/Users";
 import Contact from "./Contact";
 import NotFound from "./NotFound";
 import NewProduct from "./products/NewProduct";
+import ProductDetail from "./products/ProductDetail";
 
 // import Counter from "./Counter";
 // import NewProduct from "./products/NewProduct";
@@ -29,6 +30,7 @@ const App=()=>{
         <Route path='/Users' element={<Users/>}/>
         <Route path='/products'element={<ProductList/>}/>
         <Route path='/products/new' element={<NewProduct/>}/>
+        <Route path='/products/detail/:id' element={<ProductDetail/>}/>
         <Route path='*' element={<NotFound/>}/>
     </Routes>
     <Footer/>

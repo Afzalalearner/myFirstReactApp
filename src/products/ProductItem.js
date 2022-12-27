@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 //Presentation Component
 const ProductItem = ({ product }) => {
 
@@ -6,6 +8,7 @@ const ProductItem = ({ product }) => {
   }
 
   return <div className="col-md-4 m-2 offset-md-1">
+    <Link to={`/products/detail/${product._id}`}>
 
     <div className="card ">
       <img src={product.image} className="card-img-top" style={{ backgroundColor: "#def" }} alt="" />
@@ -27,6 +30,7 @@ const ProductItem = ({ product }) => {
         </button>
       </div>
     </div>
+          </Link>
     <hr />
   </div>
 
