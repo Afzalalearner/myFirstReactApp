@@ -1,6 +1,38 @@
 import React from 'react';
 import axios from 'axios';
+import ShouldRender from './../utils/ShouldRender'
+import moment from 'moment'
 
+const getUpdatedDate=(review)=>{
+        
+    // const dt=new Date(review.updatedDate).toLocaleDateString()
+    // const time=new Date(review.updatedDate).toLocaleTimeString()
+
+    // return `${dt} ${time}`
+    return moment(review.updatedDate).fromNow()
+}
+
+
+const Reviews=({product})=>{
+
+    return <div>
+        <hr/>
+        <h3>User reviews</h3>
+        <hr/>
+        <ShouldRender condition={product.reviews.length===0}>
+            <div>Be the First one to Review</div>
+            <button className='btn btn-sm btn-success'>Add Review </button>
+        </ShouldRender>
+    {product.reviews.map(review=><div>
+<h4> <b>Subject: </b>{review.subject} </h4>
+<b>Message: </b>{review.message}<br/>
+<b>Rating: </b><b style={{textEmphasisColor:'#f00'}}>{review.rating}*</b>
+<br/>{getUpdatedDate(review)}
+
+<hr/>
+</div>)}
+        </div>
+}
 class ProductDetail extends React.Component {
 
     state = {
@@ -9,6 +41,7 @@ class ProductDetail extends React.Component {
         }
     }
 
+  
     async componentDidMount() {
         const res = await axios.get('http://localhost:5000/api/products/63a74ddc00220cf02f3985ce')
         this.setState({ product: res.data })
@@ -43,15 +76,8 @@ class ProductDetail extends React.Component {
                 </div>
                 <br/>
                 <div>
-                    <h3>User reviews</h3>
-                    {product.reviews.map(review=><div>
-          <h4> <b>Subject: </b>{review.subject} </h4>
-           <b>Message: </b>{review.message}<br/>
-           <b>Rating: </b><b style={{textEmphasisColor:'#f00'}}>{review.rating}*</b>
-           <br/>
-           {review.updatedDate}
-           <hr/>
-        </div>)}
+                    <Reviews product={product}/>
+                    
                 </div>
             </div>
         </div>

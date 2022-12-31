@@ -12,6 +12,15 @@ class Counter extends React.Component {
                 count:this.props.count,
             }
 
+            componentDidUpdate(){
+                console.log('updated')
+            }
+
+            shouldComponentUpdate(){
+                // console.log('Should Component Update at Work')
+                return this.state.count<15
+            }
+
         inc=()=>{
             const current=this.state.count;
             this.setState({count:current+1})
