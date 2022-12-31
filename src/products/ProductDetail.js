@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ShouldRender from './../utils/ShouldRender'
 import moment from 'moment'
@@ -33,33 +33,32 @@ const Reviews=({product})=>{
 </div>)}
         </div>
 }
-class ProductDetail extends React.Component {
+const ProductDetail=()=> {
 
-    state = {
-        product: {
-            reviews:[]
-        }
-    }
+    const [product,setProduct]=useState({
+        reviews:[]
 
-  
-    async componentDidMount() {
-        const res = await axios.get('http://localhost:5000/api/products/63a74ddc00220cf02f3985ce')
-        this.setState({ product: res.data })
-        console.log(res.data)
+    })
 
+  useEffect(async ()=>{
+    const res = await axios.get('http://localhost:5000/api/products/63a74b2d00220cf02f3985c8')
+    setProduct( res.data )
+    
+  },[])
+    
 
-    }
+    
 
-    getDiscountedPrice({ product }) {
+  const  getDiscountedPrice=( product ) =>{
         return product.price - product.price * product.discount / 100;
     }
 
-    render() {
-        const { product } = this.state;
+    
+    
         return <div className='col-6'>
             <h1>{product.brand} {product.model}</h1>
             <div style={{ textDecoration: product.discount ? 'line-through' : '' }}>Was:${product.price}</div>
-            <div>Now:{this.getDiscountedPrice({ product })}</div>
+            <div>Now:{getDiscountedPrice({ product })}</div>
             <h1>Rating:{product.avgRating && product.avgRating.toFixed(2)}</h1>
             <div className='row'>
                 <div className='col-3'>
@@ -85,6 +84,6 @@ class ProductDetail extends React.Component {
 
         // return <h1>{product.data.brand} {product.data.model}</h1>
     }
-}
+
 
 export default ProductDetail;
