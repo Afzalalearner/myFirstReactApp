@@ -16,6 +16,7 @@ const ProductList = () => {
 
     const [hasError, setError] = useState(false)
     const [loader, setLoader] = useState(false)
+    const [page, setPage] = useState(1)
     // state={
     //     response:{
     //         metadata:{},
@@ -35,7 +36,7 @@ const ProductList = () => {
     //         .catch(err => this.setState({ hasError: true, loader: false }))
     // }
     useEffect(() => {
-        axios.get('http://localhost:5000/api/products/page/1/limit/10')
+        axios.get(`http://localhost:5000/api/products/page/${page}/limit/10`)
             .then(res => {
                 setResponse(res.data)
                 setError(false)
@@ -47,13 +48,24 @@ const ProductList = () => {
                 setLoader(false)
             })
 
-    }, [])
+    }, [page])
+
+    const onPrev = () => {
+        if (page > 1)
+            setPage(page - 1)
+    }
+    const onNext = () => {
+
+        setPage(page + 1)
+        console.log(page);
+
+    }
+
 
     // render(){
     return <div className='container-fluid'>
         <h4 style={{ textAlign: 'center' }} className="m-3">Products</h4>
         <hr />
-        <Link to="/products/new" className="btn btn-danger btn-sm">Add Product</Link>
 
         <ShouldRender condition={hasError}>
             <Error />
@@ -62,9 +74,30 @@ const ProductList = () => {
         <ShouldRender condition={loader}>
             <Loader />
         </ShouldRender>
+        <div className='row'>
 
+            <div className='col-1'>
+                <button disabled={page === 1} className='btn btn-outline-secondary' onClick={onPrev}>
+                    <i className='fa-solid fa-chevron-left'></i>
+                </button>
+            </div>
+            <div className='col-1'>
+                <button className='btn btn-outline-secondary' disabled={page === response.metadata.pages} onClick={onNext}>
+                    <i className='fa-solid fa-chevron-right'></i>
+                </button>
+            </div>
 
-        {response.data.map(product => <ProductItem product={product} />)}
+            <div className='col-3 p-2'>
+                <b>
+                    Page {page} of {response.metadata.pages} (total {response.metadata.count} Records)
+                </b>
+            </div>
+            <div className='col-2'>
+                <Link to="/products/new" className="btn btn-danger btn-sm p-2">Add Product</Link>
+            </div>
+
+        </div>
+        {response.data.map(product => <ProductItem key={product._id} product={product} />)}
     </div>;
 }
 // }

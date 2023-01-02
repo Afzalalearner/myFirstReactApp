@@ -24,6 +24,9 @@ class NewProduct extends Component {
         e.preventDefault();
         try {
             this.setState({ product: { inStock: !!this.state.product.inStock } })
+            //const productToBeAdded={...this.state.product}
+            //productToBeAdded.inStock=!!productToBeAdded.inStock
+            //send productToBeAdded in axios call instead of this.state.product
             this.setState({ loader: true })
             await axios.post('http://localhost:5000/api/products', this.state.product)
             this.setState({

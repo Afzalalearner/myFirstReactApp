@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import ShouldRender from './../utils/ShouldRender'
 import moment from 'moment'
 
@@ -23,7 +24,7 @@ const Reviews=({product})=>{
             <div>Be the First one to Review</div>
             <button className='btn btn-sm btn-success'>Add Review </button>
         </ShouldRender>
-    {product.reviews.map(review=><div>
+    {product.reviews.map((review,index)=><div key={index}>
 <h4> <b>Subject: </b>{review.subject} </h4>
 <b>Message: </b>{review.message}<br/>
 <b>Rating: </b><b style={{textEmphasisColor:'#f00'}}>{review.rating}*</b>
@@ -39,10 +40,15 @@ const ProductDetail=()=> {
         reviews:[]
 
     })
+    const params=useParams();
 
-  useEffect(async ()=>{
-    const res = await axios.get('http://localhost:5000/api/products/63a74b2d00220cf02f3985c8')
-    setProduct( res.data )
+  useEffect( ()=>{
+      const init=async ()=>{
+        const id=params.id;
+        const res = await axios.get(`http://localhost:5000/api/products/${id}`)
+        setProduct( res.data )
+    }
+    init()
     
   },[])
     
@@ -58,7 +64,7 @@ const ProductDetail=()=> {
         return <div className='col-6'>
             <h1>{product.brand} {product.model}</h1>
             <div style={{ textDecoration: product.discount ? 'line-through' : '' }}>Was:${product.price}</div>
-            <div>Now:{getDiscountedPrice({ product })}</div>
+            <div>Now:{getDiscountedPrice( product )}</div>
             <h1>Rating:{product.avgRating && product.avgRating.toFixed(2)}</h1>
             <div className='row'>
                 <div className='col-3'>

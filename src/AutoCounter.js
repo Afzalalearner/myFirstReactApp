@@ -1,28 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-class AutoCounter extends React.Component {
+const AutoCounter=()=> {
 
-    state = {
-        count: 0
-    }
+    const [count,setCount]=useState(0)
+    
+    
+    useEffect(() => {
+            setTimeout(() => {
+                setCount(count+1)
+                console.log(`Updating Count:${count}`)
+            }, 1000)
+            
+        },[count]
+        ) 
 
-    componentDidMount = () => {
-        this.interval = setInterval(() => {
-            console.log(`Updating Count:${this.state.count}`)
-            this.setState({ count: this.state.count + 1 })
-        }, 1000)
-    }
-
-    componentWillUnmount = () => {
-        console.log('Clearing Interval')
-        clearInterval(this.interval)
-    }
-    render() {
-        return <>
+    // componentWillUnmount = () => {
+    //     console.log('Clearing Interval')
+    //     clearInterval(this.interval)
+    // }
+            return <>
             <h3>AutoCounter</h3>
-            <h4>{this.state.count}</h4>
+            <h4>{count}</h4>
         </>
     }
-}
+
 
 export default AutoCounter;

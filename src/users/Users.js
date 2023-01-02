@@ -36,7 +36,7 @@ setTimeout(()=>{
 
 
             {this.state.loader?<Loader/>:null }
-            {this.state.users.map(user => <UserItem user={user} />)}
+            {this.state.users.map((user,index) => <UserItem key={index} user={user} />)}
         </div>
 
     }
