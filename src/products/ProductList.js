@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 
 // class ProductList extends React.Component{
 
+
+
 const ProductList = () => {
     const [response, setResponse] = useState({
         metadata: {},
@@ -17,6 +19,7 @@ const ProductList = () => {
     const [hasError, setError] = useState(false)
     const [loader, setLoader] = useState(false)
     const [page, setPage] = useState(1)
+    const [limit,setLimit]=useState(10)
     // state={
     //     response:{
     //         metadata:{},
@@ -36,7 +39,7 @@ const ProductList = () => {
     //         .catch(err => this.setState({ hasError: true, loader: false }))
     // }
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/products/page/${page}/limit/10`)
+        axios.get(`http://localhost:5000/api/products/page/${page}/limit/${limit}`)
             .then(res => {
                 setResponse(res.data)
                 setError(false)
@@ -48,19 +51,24 @@ const ProductList = () => {
                 setLoader(false)
             })
 
-    }, [page])
+    }, [page,limit])
 
     const onPrev = () => {
         if (page > 1)
             setPage(page - 1)
     }
     const onNext = () => {
-
-        setPage(page + 1)
-        console.log(page);
+        if(page<response.metadata.pages){
+            setPage(page + 1)
+        }
 
     }
 
+    const onLimitChange=(evt)=>{
+    
+        setLimit(evt.target.value)
+        setPage(1)
+    }
 
     // render(){
     return <div className='container-fluid'>
@@ -91,6 +99,15 @@ const ProductList = () => {
                 <b>
                     Page {page} of {response.metadata.pages} (total {response.metadata.count} Records)
                 </b>
+            </div>
+            <div className='col-1'>
+                <select className='form-select' onChange={onLimitChange}>
+                    <option>10</option>
+                    <option>20</option>
+                    <option>50</option>
+                    <option>100</option>
+
+                </select>
             </div>
             <div className='col-2'>
                 <Link to="/products/new" className="btn btn-danger btn-sm p-2">Add Product</Link>
