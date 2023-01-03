@@ -25,6 +25,9 @@ const ProductList = () => {
     const [search,setSearch]=useState('');
     const [filter,setFilter]=useState('');
 
+    const [sort,setSort]=useState('')
+    const [dir,setDir]=useState('');
+
     // state={
     //     response:{
     //         metadata:{},
@@ -44,7 +47,8 @@ const ProductList = () => {
     //         .catch(err => this.setState({ hasError: true, loader: false }))
     // }
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/products/page/${page}/limit/${limit}?search=${filter}`)
+        const url=`http://localhost:5000/api/products/page/${page}/limit/${limit}?search=${filter}&sort=${sort}&direction=${dir}`
+        axios.get(url)
             .then(res => {
                 setResponse(res.data)
                 setError(false)
@@ -56,7 +60,7 @@ const ProductList = () => {
                 setLoader(false)
             })
 
-    }, [page, limit,filter])
+    }, [page, limit,filter,sort,dir])
 
     const onPrev = () => {
         if (page > 1)
@@ -89,7 +93,16 @@ const ProductList = () => {
         setFilter(search)
     }
 
-    // render(){
+
+    const onSortChange=(evt)=>{
+        const sortedValue=evt.target.value;
+        const tokens=sortedValue.split(':');
+        setSort(tokens[0])
+        setDir(tokens[1])
+        
+    }
+
+
     return <div className='container-fluid'>
         <h4 style={{ textAlign: 'center' }} className="m-3">Products</h4>
         <hr />
@@ -107,17 +120,16 @@ const ProductList = () => {
                 <button disabled={page === 1} className='btn btn-outline-secondary' onClick={onPrev}>
                     <i className='fa-solid fa-chevron-left'></i>
                 </button>
+                <button className='btn btn-outline-secondary ' disabled={page === response.metadata.pages} onClick={onNext}>
+                    <i className='fa-solid fa-chevron-right'></i>
+                </button>
             </div>
             <div className='col-3 p-2'>
                 <b>
                     Page {page} of {response.metadata.pages} (total {response.metadata.count} Records)
                 </b>
             </div>
-            <div className='col-1'>
-                <button className='btn btn-outline-secondary' disabled={page === response.metadata.pages} onClick={onNext}>
-                    <i className='fa-solid fa-chevron-right'></i>
-                </button>
-            </div>
+
 
             <div className='col-2'>
                 <input type="text" onChange={onSearchChange} placeholder='Search' className='form-control' />
@@ -138,6 +150,23 @@ const ProductList = () => {
 
                 </select>
             </div>
+                <div className='col-2'>
+                <select className='form-select' onChange={onSortChange}>
+                    <option value="">Sort By</option>
+                    <option value="price:asc">Price Low to High</option>
+                    <option value="price:desc">Price High to Low</option>
+                   
+                    <option value="discount:asc">Discount Low to High</option>
+                    <option value="discount:desc">Discount High to Low</option>
+
+                    <option value="brand:asc">Brand Ascending</option>
+                    <option value="brand:desc">Brand Descending</option>
+                   
+                    <option value="model:asc">Model Ascending</option>
+                    <option value="model:desc">Model Descending</option>
+                </select>
+            </div>
+
             <div className='col-2'>
                 <Link to="/products/new" className="btn btn-danger btn-sm p-2">Add Product</Link>
             </div>
