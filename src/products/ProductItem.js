@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import NoImage from '../assets/img/noImage.jpeg'
 //Presentation Component
 const ProductItem = ({ product }) => {
 
@@ -11,7 +11,7 @@ const ProductItem = ({ product }) => {
     <Link to={`/products/detail/${product._id}`}>
 
     <div className="card ">
-      <img src={product.image} className="card-img-top" style={{ backgroundColor: "#def" }} alt="" />
+      <img src={product.image||NoImage} className="card-img-top" style={{ backgroundColor: "#def" }} alt="" />
       <div className="card-header">
         {product.brand} {product.model}
       </div>

@@ -18,8 +18,13 @@ const ProductList = () => {
 
     const [hasError, setError] = useState(false)
     const [loader, setLoader] = useState(false)
+    
     const [page, setPage] = useState(1)
-    const [limit,setLimit]=useState(10)
+    const [limit, setLimit] = useState(10)
+
+    const [search,setSearch]=useState('');
+    const [filter,setFilter]=useState('');
+
     // state={
     //     response:{
     //         metadata:{},
@@ -39,7 +44,7 @@ const ProductList = () => {
     //         .catch(err => this.setState({ hasError: true, loader: false }))
     // }
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/products/page/${page}/limit/${limit}`)
+        axios.get(`http://localhost:5000/api/products/page/${page}/limit/${limit}?search=${filter}`)
             .then(res => {
                 setResponse(res.data)
                 setError(false)
@@ -51,23 +56,37 @@ const ProductList = () => {
                 setLoader(false)
             })
 
-    }, [page,limit])
+    }, [page, limit,filter])
 
     const onPrev = () => {
         if (page > 1)
             setPage(page - 1)
     }
     const onNext = () => {
-        if(page<response.metadata.pages){
+        if (page < response.metadata.pages) {
             setPage(page + 1)
         }
 
     }
 
-    const onLimitChange=(evt)=>{
-    
+    const onLimitChange = (evt) => {
+
         setLimit(evt.target.value)
         setPage(1)
+    }
+
+    const onSearchChange=(evt)=>{
+        if(evt.target.value===''){
+            setFilter(evt.target.value)
+            setPage(1)
+        }else{
+            setSearch(evt.target.value)
+            setPage(1)
+        }
+    }
+
+    const onSearch=()=>{
+        setFilter(search)
     }
 
     // render(){
@@ -89,17 +108,27 @@ const ProductList = () => {
                     <i className='fa-solid fa-chevron-left'></i>
                 </button>
             </div>
+            <div className='col-3 p-2'>
+                <b>
+                    Page {page} of {response.metadata.pages} (total {response.metadata.count} Records)
+                </b>
+            </div>
             <div className='col-1'>
                 <button className='btn btn-outline-secondary' disabled={page === response.metadata.pages} onClick={onNext}>
                     <i className='fa-solid fa-chevron-right'></i>
                 </button>
             </div>
 
-            <div className='col-3 p-2'>
-                <b>
-                    Page {page} of {response.metadata.pages} (total {response.metadata.count} Records)
-                </b>
+            <div className='col-2'>
+                <input type="text" onChange={onSearchChange} placeholder='Search' className='form-control' />
             </div>
+
+            <div className='col-1 p-1'>
+                <button className='btn btn-sm btn-outline-primary' onClick={onSearch}>
+                    <i className='fa-solid fa-search'></i>
+                </button>
+            </div>
+
             <div className='col-1'>
                 <select className='form-select' onChange={onLimitChange}>
                     <option>10</option>
