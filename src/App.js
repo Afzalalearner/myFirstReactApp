@@ -10,6 +10,9 @@ import Contact from "./Contact";
 import NotFound from "./NotFound";
 import NewProduct from "./products/NewProduct";
 import ProductDetail from "./products/ProductDetail";
+import Signin from "./auth/Signin";
+import Signout from "./auth/Signout";
+import Signup from "./auth/Signup";
 
 // import Counter from "./Counter";
 // import NewProduct from "./products/NewProduct";
@@ -31,6 +34,10 @@ const App=()=>{
         <Route path='/products'element={<ProductList/>}/>
         <Route path='/products/new' element={<NewProduct/>}/>
         <Route path='/products/detail/:id' element={<ProductDetail/>}/>
+        <Route path='/signin' element={<Signin/>}/>
+        <Route path='/signout' element={<Signout/>}/>  
+        <Route path='/signup' element={<Signup/>}/>     
+        
         <Route path='*' element={<NotFound/>}/>
     </Routes>
     <Footer/>

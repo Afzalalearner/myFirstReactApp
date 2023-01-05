@@ -1,8 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
-    return <nav className="navbar navbar-expand-lg bg-success">
+
+    const navigate=useNavigate();
+
+    const onSignout=()=>{
+        localStorage.removeItem('user')
+        navigate('/signin')
+    }
+return <nav className="navbar navbar-expand-lg bg-success">
      <div className="container">
         <Link className="navbar-brand" to='/'>My Website</Link>
         <div className="collapse navbar-collapse ">
@@ -15,6 +22,9 @@ const Header = () => {
             
             </ul>
         </div>
+    <Link className="btn btn-sm btn-warning m-1" to='/signin '>Sign In</Link>
+    <Link className="btn btn-sm btn-primary m-1" to='/signup'>Sign Up</Link>
+    <button className="btn btn-sm btn-danger m-1" onClick={onSignout} >Sign out</button>
 
     </div>
     </nav>

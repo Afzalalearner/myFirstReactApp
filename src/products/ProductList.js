@@ -1,11 +1,11 @@
-import axios from 'axios';
+import axios from '../utils/axios';
 import React, { useEffect, useState } from 'react';
 import ProductItem from './ProductItem';
 import ShouldRender from './../utils/ShouldRender'
 import Error from './../utils/Error'
 import Loader from './../utils/Loader'
 import { Link } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom'
 // class ProductList extends React.Component{
 
 
@@ -15,18 +15,22 @@ const ProductList = () => {
         metadata: {},
         data: []
     })
+    const navigate = useNavigate()
+
+
+
 
     const [hasError, setError] = useState(false)
     const [loader, setLoader] = useState(false)
-    
+
     const [page, setPage] = useState(1)
     const [limit, setLimit] = useState(10)
 
-    const [search,setSearch]=useState('');
-    const [filter,setFilter]=useState('');
+    const [search, setSearch] = useState('');
+    const [filter, setFilter] = useState('');
 
-    const [sort,setSort]=useState('')
-    const [dir,setDir]=useState('');
+    const [sort, setSort] = useState('')
+    const [dir, setDir] = useState('');
 
     // state={
     //     response:{
@@ -47,7 +51,9 @@ const ProductList = () => {
     //         .catch(err => this.setState({ hasError: true, loader: false }))
     // }
     useEffect(() => {
-        const url=`http://localhost:5000/api/products/page/${page}/limit/${limit}?search=${filter}&sort=${sort}&direction=${dir}`
+        
+
+        const url = `/api/products/page/${page}/limit/${limit}?search=${filter}&sort=${sort}&direction=${dir}`
         axios.get(url)
             .then(res => {
                 setResponse(res.data)
@@ -55,12 +61,14 @@ const ProductList = () => {
                 setLoader(false)
             })
             .catch(err => {
-
-                setError(true)
                 setLoader(false)
+                if (err.response && err.response.status === 401)
+                    navigate('/signin')
+                else
+                    setError(true)
             })
 
-    }, [page, limit,filter,sort,dir])
+    }, [page, limit, filter, sort, dir])
 
     const onPrev = () => {
         if (page > 1)
@@ -79,27 +87,27 @@ const ProductList = () => {
         setPage(1)
     }
 
-    const onSearchChange=(evt)=>{
-        if(evt.target.value===''){
+    const onSearchChange = (evt) => {
+        if (evt.target.value === '') {
             setFilter(evt.target.value)
             setPage(1)
-        }else{
+        } else {
             setSearch(evt.target.value)
             setPage(1)
         }
     }
 
-    const onSearch=()=>{
+    const onSearch = () => {
         setFilter(search)
     }
 
 
-    const onSortChange=(evt)=>{
-        const sortedValue=evt.target.value;
-        const tokens=sortedValue.split(':');
+    const onSortChange = (evt) => {
+        const sortedValue = evt.target.value;
+        const tokens = sortedValue.split(':');
         setSort(tokens[0])
         setDir(tokens[1])
-        
+
     }
 
 
@@ -150,18 +158,18 @@ const ProductList = () => {
 
                 </select>
             </div>
-                <div className='col-2'>
+            <div className='col-2'>
                 <select className='form-select' onChange={onSortChange}>
                     <option value="">Sort By</option>
                     <option value="price:asc">Price Low to High</option>
                     <option value="price:desc">Price High to Low</option>
-                   
+
                     <option value="discount:asc">Discount Low to High</option>
                     <option value="discount:desc">Discount High to Low</option>
 
                     <option value="brand:asc">Brand Ascending</option>
                     <option value="brand:desc">Brand Descending</option>
-                   
+
                     <option value="model:asc">Model Ascending</option>
                     <option value="model:desc">Model Descending</option>
                 </select>

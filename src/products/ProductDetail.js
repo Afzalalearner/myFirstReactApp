@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../utils/axios';
 import { useParams } from 'react-router-dom';
 import ShouldRender from './../utils/ShouldRender'
 import moment from 'moment'
@@ -45,7 +45,7 @@ const ProductDetail=()=> {
   useEffect( ()=>{
       const init=async ()=>{
         const id=params.id;
-        const res = await axios.get(`http://localhost:5000/api/products/${id}`)
+        const res = await axios.get(`/api/products/${id}`)
         setProduct( res.data )
     }
     init()
