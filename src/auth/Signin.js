@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useState ,useRef, useEffect} from 'react'
 import ShouldRender from './../utils/ShouldRender'
 import { useNavigate } from 'react-router-dom'
 
@@ -13,6 +13,11 @@ const Signin=()=>{
     const [hasError,setError]=useState(false)
 
     const navigate=useNavigate()
+    const usernameRef=useRef()
+
+    useEffect(()=>{
+        usernameRef.current.focus()
+    })
     
     const onSignin=async (evt)=>{
         try{
@@ -56,7 +61,7 @@ const Signin=()=>{
         <form onSubmit={onSignin}>
             <div className='m-1'>
                 <label for="userName" className='form-label'>UserName:  </label>
-                <input type="text" onChange={onInputChange} name="userName" id="userName" placeholder="Username" className='form-control'/> 
+                <input type="text" ref={usernameRef} onChange={onInputChange} name="userName" id="userName" placeholder="Username" className='form-control'/> 
             </div>
             <div className='m-1'>
                 <label for="password" className='form-label'>Password:  </label>
