@@ -29,7 +29,7 @@ const Signin=()=>{
             console.log('Signing in....')
             evt.preventDefault()
             //   console.log(user)
-            const res=await axios.post('/api/users/signin',user)
+            const res=await axios().post('/api/users/signin',user)
             setError(false)
             console.log(res)
             localStorage.setItem('user',JSON.stringify(res.data))

@@ -45,7 +45,7 @@ const ProductDetail=()=> {
   useEffect( ()=>{
       const init=async ()=>{
         const id=params.id;
-        const res = await axios.get(`/api/products/${id}`)
+        const res = await axios().get(`/api/products/${id}`)
         setProduct( res.data )
     }
     init()

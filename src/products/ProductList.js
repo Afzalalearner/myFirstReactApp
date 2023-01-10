@@ -54,7 +54,7 @@ const ProductList = () => {
         
 
         const url = `/api/products/page/${page}/limit/${limit}?search=${filter}&sort=${sort}&direction=${dir}`
-        axios.get(url)
+        axios().get(url)
             .then(res => {
                 setResponse(res.data)
                 console.log(res.data)

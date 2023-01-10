@@ -28,7 +28,7 @@ class NewProduct extends Component {
             //productToBeAdded.inStock=!!productToBeAdded.inStock
             //send productToBeAdded in axios call instead of this.state.product
             this.setState({ loader: true })
-            await axios.post('/api/products', this.state.product)
+            await axios().post('/api/products', this.state.product)
             this.setState({
                 success: true, loader: false, hasError: false,
                 product: { brand: '', model: '', price: '', discount: '', inStock: false }
