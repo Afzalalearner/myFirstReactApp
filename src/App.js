@@ -13,17 +13,32 @@ import ProductDetail from "./products/ProductDetail";
 import Signin from "./auth/Signin";
 import Signout from "./auth/Signout";
 import Signup from "./auth/Signup";
+import AppContext from "./context/AppContext";
+import { useEffect, useState } from "react";
 
 // import Counter from "./Counter";
 // import NewProduct from "./products/NewProduct";
 // import Name from "./Name";
 const App=()=>{
-    return <div>
+    const [authenticated,setAuthenticated]=useState(false)
+    const userState={
+        authenticated,
+        setAuthenticated,
+    }
+
+    useEffect(()=>{
+        if(localStorage.getItem('user')){
+            setAuthenticated(true)
+        }
+    },[])
+    
+    return <AppContext.Provider value={userState}>
+
     {/* <h1>Welcome to React App</h1>
     <Name fName='Afzal'/>
     <Name fName='AbuBakr'/>
     <Name fName='Musfirah'/>
-    <Counter count={10}/> */}
+<Counter count={10}/> */}
     <BrowserRouter>
     <Header/>
     <Routes>
@@ -46,7 +61,7 @@ const App=()=>{
     {/* <NewProduct/> */}
     {/* <ProductList/> */}
     {/* <Users/> */}
-    </div>
-}
+    </AppContext.Provider>
+    }
 
 export default App;

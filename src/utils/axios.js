@@ -1,16 +1,24 @@
 import axios from 'axios'
-let token='';
 
-const userInfoString=localStorage.getItem('user')
+    function init(){
 
-if(userInfoString){
-    const  user=JSON.parse(userInfoString)
-    token=user.token
-}
+        
+        let token='';
+        
+        const userInfoString=localStorage.getItem('user')
+        
+        if(userInfoString){
+            const  user=JSON.parse(userInfoString)
+            token=user.token
+        }
+        
+        const instance=axios.create({
+            baseURL:`http://localhost:5000`,
+            headers:{'authorization':`Bearer ${token}`}
+        })
+    return instance;
+    }
+    
 
-const instance=axios.create({
-    baseURL:`http://localhost:5000`,
-    headers:{'authorization':`Bearer ${token}`}
-})
 
-export default instance;
+export default init();

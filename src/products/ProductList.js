@@ -57,6 +57,7 @@ const ProductList = () => {
         axios.get(url)
             .then(res => {
                 setResponse(res.data)
+                console.log(res.data)
                 setError(false)
                 setLoader(false)
             })

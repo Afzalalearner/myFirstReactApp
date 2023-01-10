@@ -1,7 +1,9 @@
-import axios from 'axios'
-import React, { useState ,useRef, useEffect} from 'react'
+// import axios from 'axios'
+import axios from './../utils/axios'
+import React, { useState ,useRef, useEffect, useContext} from 'react'
 import ShouldRender from './../utils/ShouldRender'
 import { useNavigate } from 'react-router-dom'
+import AppContext from '../context/AppContext'
 
 const Signin=()=>{
 
@@ -12,12 +14,14 @@ const Signin=()=>{
     })
     const [hasError,setError]=useState(false)
 
+    const userState=useContext(AppContext)
+
     const navigate=useNavigate()
-    const usernameRef=useRef()
+    const usernameRef=useRef(null)
 
     useEffect(()=>{
         usernameRef.current.focus()
-    })
+    },[])
     
     const onSignin=async (evt)=>{
         try{
@@ -25,10 +29,11 @@ const Signin=()=>{
             console.log('Signing in....')
             evt.preventDefault()
             //   console.log(user)
-            const res=await axios.post('http://localhost:5000/api/users/signin',user)
+            const res=await axios.post('/api/users/signin',user)
             setError(false)
             console.log(res)
             localStorage.setItem('user',JSON.stringify(res.data))
+            userState.setAuthenticated(true)
             navigate('/products')
         }catch(err){
             setError(true)
@@ -61,7 +66,9 @@ const Signin=()=>{
         <form onSubmit={onSignin}>
             <div className='m-1'>
                 <label for="userName" className='form-label'>UserName:  </label>
-                <input type="text" ref={usernameRef} onChange={onInputChange} name="userName" id="userName" placeholder="Username" className='form-control'/> 
+                <input type="text" 
+                ref={usernameRef}
+                 onChange={onInputChange} name="userName" id="userName" placeholder="Username" className='form-control'/> 
             </div>
             <div className='m-1'>
                 <label for="password" className='form-label'>Password:  </label>
